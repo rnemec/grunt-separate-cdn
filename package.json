@@ -1,7 +1,7 @@
 {
   "name": "grunt-move-cdn-block",
   "description": "Moves the cdn script tags outside of the bower:js block. Should be used after cdnify and before usemin",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "homepage": "https://github.com/royteeuwen/move-cdn-block",
   "author": {
     "name": "Roy Teeuwen",

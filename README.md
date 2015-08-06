@@ -2,6 +2,8 @@
 
 > Moves the cdn script tags outside of the bower:js block. Should be used after cdnify and before usemin
 
+This project was originally authored by [royteeuwen](https://github.com/royteeuwen/). The repository that he had setup has since been taken down. I found value in his project and decided to resurrect it and give it a home.
+
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
 

@@ -34,14 +34,18 @@ module.exports = function(grunt) {
         var result = '';
         var cdnScriptTags = [];
         var bowerContent = content.substring(content.indexOf("<!-- bower:js -->"), content.indexOf("<!-- endbower -->"));
+        
         while ((matches_array = cdnPattern.exec(bowerContent)) !== null) {
             result = result + matches_array[0];
             cdnScriptTags.push(matches_array[0]);
         }
-        content = content.replace(cdnResultBlockPattern, result);
-        for(var i = 0; i< cdnScriptTags.length; i++ ) {
+        
+        for (var i = 0; i< cdnScriptTags.length; i++ ) {
             content = content.replace(cdnScriptTags[i], '');
         }
+        
+        content = content.replace(cdnResultBlockPattern, result);
+
         return content;
     };
 
