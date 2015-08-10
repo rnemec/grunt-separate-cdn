@@ -1,7 +1,7 @@
 'use strict';
 
 var util = require('util'),
-    async = require('async'),
+    eachAsync = require('each-async'),
     path = require('path');
 
 
@@ -29,38 +29,38 @@ module.exports = function(grunt) {
         }
     };
 
-    var moveCndBlock = function(content, cdnPattern, cdnResultBlockPattern) {
+    var moveCdnTags = function(content, cdnPattern, cdnResultBlockPattern) {
         var matches_array =[];
         var result = '';
         var cdnScriptTags = [];
         var bowerContent = content.substring(content.indexOf("<!-- bower:js -->"), content.indexOf("<!-- endbower -->"));
-        
+
         while ((matches_array = cdnPattern.exec(bowerContent)) !== null) {
             result = result + matches_array[0];
             cdnScriptTags.push(matches_array[0]);
         }
-        
+
         for (var i = 0; i< cdnScriptTags.length; i++ ) {
             content = content.replace(cdnScriptTags[i], '');
         }
-        
+
         content = content.replace(cdnResultBlockPattern, result);
 
         return content;
     };
 
-    grunt.registerMultiTask('move-cdn-block', 'Moves the cdn block outside the bower:js block', function() {
+    grunt.registerMultiTask('separatecdn', 'Moves cdn script tags outside the bower:js block', function() {
 
         var content, dest;
-        var done = this.async();
+        var done = this.eachAsync();
         var options = this.options({
             cdnPattern: /\s+<script src="\/\/.*[^>]><\/script>/g,
             cdnResultBlockPattern: /<!-- cdnresultblock -->/
         });
 
 
-        async.forEach(this.files, function(file, files_done) {
-            async.forEach(file.src, function(src, src_done) {
+        eachAsync(this.files, function(file, files_done) {
+            eachAsync(file.src, function(src, src_done) {
                 if (!grunt.file.exists(src)) {
                     return src_done(src + ' file not found');
                 }
@@ -82,7 +82,7 @@ module.exports = function(grunt) {
                 dest = unixifyPath(dest);
 
                 content = grunt.file.read(src);
-                content = moveCndBlock(content, options.cdnPattern, options.cdnResultBlockPattern);
+                content = moveCdnTags(content, options.cdnPattern, options.cdnResultBlockPattern);
                 grunt.file.write(dest, content);
                 grunt.log.writeln('File ' + dest + ' created.');
 
