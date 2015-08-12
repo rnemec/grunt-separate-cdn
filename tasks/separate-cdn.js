@@ -1,7 +1,7 @@
 'use strict';
 
 var util = require('util'),
-    eachAsync = require('each-async'),
+    async = require('async'),
     path = require('path');
 
 
@@ -52,15 +52,15 @@ module.exports = function(grunt) {
     grunt.registerMultiTask('separatecdn', 'Moves cdn script tags outside the bower:js block', function() {
 
         var content, dest;
-        var done = this.eachAsync();
+        var done = this.async();
         var options = this.options({
             cdnPattern: /\s+<script src="\/\/.*[^>]><\/script>/g,
             cdnResultBlockPattern: /<!-- cdnresultblock -->/
         });
 
 
-        eachAsync(this.files, function(file, files_done) {
-            eachAsync(file.src, function(src, src_done) {
+        async.forEach(this.files, function(file, files_done) {
+            async.forEach(file.src, function(src, src_done) {
                 if (!grunt.file.exists(src)) {
                     return src_done(src + ' file not found');
                 }
@@ -82,7 +82,7 @@ module.exports = function(grunt) {
                 dest = unixifyPath(dest);
 
                 content = grunt.file.read(src);
-                content = moveCdnTags(content, options.cdnPattern, options.cdnResultBlockPattern);
+                content = moveCndBlock(content, options.cdnPattern, options.cdnResultBlockPattern);
                 grunt.file.write(dest, content);
                 grunt.log.writeln('File ' + dest + ' created.');
 
