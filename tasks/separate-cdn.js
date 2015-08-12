@@ -82,7 +82,7 @@ module.exports = function(grunt) {
                 dest = unixifyPath(dest);
 
                 content = grunt.file.read(src);
-                content = moveCndBlock(content, options.cdnPattern, options.cdnResultBlockPattern);
+                content = moveCdnTags(content, options.cdnPattern, options.cdnResultBlockPattern);
                 grunt.file.write(dest, content);
                 grunt.log.writeln('File ' + dest + ' created.');
 
