@@ -1,6 +1,6 @@
 {
   "name": "grunt-separate-cdn",
-  "version": "0.1.0-beta.3",
+  "version": "0.1.0-beta.4",
   "description": "Moves the cdn script tags outside of the bower:js block. Should be used after cdnify and before usemin.",
   "author": "Curt Kirkhoff <curt@kirkhoff.com>",
   "contributors": [{
@@ -29,7 +29,7 @@
     "wiredep"
   ],
   "dependencies": {
-    "each-async": "^1.1.1"
+    "async": "^0.9.0"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "^0.9.2",
