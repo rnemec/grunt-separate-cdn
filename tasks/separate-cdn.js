@@ -33,7 +33,9 @@ module.exports = function(grunt) {
         var matches_array =[];
         var result = '';
         var cdnScriptTags = [];
-        var bowerContent = content.substring(content.indexOf("<!-- bower:js -->"), content.indexOf("<!-- endbower -->"));
+        var bowerTagStartIdx = content.indexOf("<!-- bower:js -->");
+        var bowerTagEndIdx = content.indexOf("<!-- endbower -->", bowerTagStartIdx);
+        var bowerContent = content.substring(bowerTagStartIdx, bowerTagEndIdx);
 
         while ((matches_array = cdnPattern.exec(bowerContent)) !== null) {
             result = result + matches_array[0];
