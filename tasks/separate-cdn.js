@@ -29,11 +29,11 @@ module.exports = function(grunt) {
         }
     };
 
-    var moveCdnTags = function(content, cdnPattern, cdnResultBlockPattern) {
+    var moveCdnTags = function (content, cdnPattern, cdnResultBlockPattern, section) {
         var matches_array =[];
         var result = '';
         var cdnScriptTags = [];
-        var bowerTagStartIdx = content.indexOf("<!-- bower:js -->");
+        var bowerTagStartIdx = content.indexOf("<!-- " + section + " -->");
         var bowerTagEndIdx = content.indexOf("<!-- endbower -->", bowerTagStartIdx);
         var bowerContent = content.substring(bowerTagStartIdx, bowerTagEndIdx);
 
@@ -56,6 +56,7 @@ module.exports = function(grunt) {
         var content, dest;
         var done = this.async();
         var options = this.options({
+            section: 'bower:js',
             cdnPattern: /\s+<script src="\/\/.*[^>]><\/script>/g,
             cdnResultBlockPattern: /<!-- cdnresultblock -->/
         });
@@ -84,7 +85,7 @@ module.exports = function(grunt) {
                 dest = unixifyPath(dest);
 
                 content = grunt.file.read(src);
-                content = moveCdnTags(content, options.cdnPattern, options.cdnResultBlockPattern);
+                content = moveCdnTags(content, options.cdnPattern, options.cdnResultBlockPattern, options.section);
                 grunt.file.write(dest, content);
                 grunt.log.writeln('File ' + dest + ' created.');
 
